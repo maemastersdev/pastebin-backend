@@ -82,7 +82,7 @@ app.get("/pastes/:pasteid", async (req, res) => {
 app.delete("/pastes/:pasteid", async (req, res) => {
   try {
     const pasteid = req.params.pasteid;
-    const deletePost = await client.query(
+    const deletePaste = await client.query(
       "DELETE FROM pastes WHERE pasteid=$1",
       [pasteid]
     );
