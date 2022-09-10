@@ -37,7 +37,7 @@ app.post("/pastes/addAPaste", async (req,res) => {
     res.send('Please add a paste')
     }
     else {
-      const newPaste = await client.query('INSERT INTO pastes (pastebody, title) VALUES ($1, $2) RETURNING *', [pastebody, pastetitle])
+      const newPaste = await client.query('INSERT INTO pastes (pastebody, pastetitle) VALUES ($1, $2) RETURNING *', [pastebody, pastetitle])
       res.json(newPaste.rows);
     }
   } catch(err) {
@@ -49,7 +49,7 @@ app.post("/pastes/addAPaste", async (req,res) => {
 // Route Param to get all pastes
 app.get("/pastes", async (req, res) => {
   try {
-    const allPastes = await client.query('SELECT * FROM pastes ORDER BY DATE DESC')
+    const allPastes = await client.query('SELECT * FROM pastes ORDER BY PASTES.PASTETIME DESC')
     res.json(allPastes.rows);
   } catch(err) {
     res.status(500).send("There has been an error, see console for details.");
@@ -76,7 +76,7 @@ app.get("/pastes/:pasteid", async (req, res) => {
 app.delete("/pastes/:pasteid", async (req, res)=>{
   try{
     const pasteid  = req.params.pasteid;
-    const deletePost= await client.query('DELETE FROM paste_entries WHERE pasteid=$1',[pasteid])
+    const deletePost= await client.query('DELETE FROM pastes WHERE pasteid=$1',[pasteid])
     res.send(`post with id: ${pasteid} has been deleted`)
   }
   catch(err){
