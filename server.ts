@@ -26,10 +26,13 @@ app.use(cors()) //add CORS support to each following route handler
 const client = new Client(dbConfig);
 client.connect();
 
+// Here, creating route parameters for the paste functionality of the app.
 app.get("/", async (req, res) => {
   const dbres = await client.query('select * from categories');
   res.json(dbres.rows);
 });
+
+// Creating route parameters for the comments functionality of the app.
 
 
 //Start the server on the given port
