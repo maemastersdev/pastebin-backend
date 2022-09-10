@@ -27,9 +27,15 @@ const client = new Client(dbConfig);
 client.connect();
 
 // Here, creating route parameters for the paste functionality of the app.
-app.get("/", async (req, res) => {
-  const dbres = await client.query('select * from categories');
-  res.json(dbres.rows);
+
+// Route Param to get all pastes
+app.get("/pastes", async (req, res) => {
+  try {
+    const allPastes = await client.query('SELECT * FROM pastes ORDER BY DATE DESC')
+    res.json(allPastes.rows);
+  } catch(err) {
+    console.error(err.message);
+  }
 });
 
 // Creating route parameters for the comments functionality of the app.
